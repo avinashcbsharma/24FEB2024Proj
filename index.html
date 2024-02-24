@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information</title>    
+    <style>
+        body {
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            text-align: center;
+            background-color: rgb(255, 255, 255);               
+        }
+        #heading{
+        background-color: black;
+        color: #ffff;
+        font-weight: 100;
+        font-size: 15px;
+        padding: 10px;
+        text-align: left;
+    }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }        
+        th, td {
+            border: 1px solid black;            
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 83vw;
+            height: 20px;
+        }
+        button {
+            width:125px;
+            height: 30px;
+            background-color: black;
+            color: #f2f2f2;
+            padding: 5px;
+            cursor: pointer;
+           
+            border: none;
+        }
+        .optbtn{
+            margin: 1rem 0rem 1rem 1rem;
+        }
+        .optbtn1{
+            margin: 1rem 0rem 1rem 0rem;
+        }
+        #Btnbox{
+           display: flex;
+           align-items: center;
+           justify-content: space-between;
+           
+        }
+    </style>
+</head>
+<body>
+    <div id="heading" class="flx">Student Portal</div>
+    <input type="text" id="searchInput" placeholder="Search">
+    <button class="optbtn" onclick="searchTable()">Search</button>
+
+    <div id="Btnbox">
+        <button class="optbtn1" onclick="sortTable(0)">Sort A->Z</button>
+        <button class="optbtn" onclick="sortTable(1)">Sort Z->A</button>
+        <button class="optbtn" onclick="sortTable(4)">Sort by Marks</button>
+        <button class="optbtn" onclick="sortTable(5)">Sort by Passing</button>
+        <button class="optbtn" onclick="sortTable(3)">Sort by Class</button>
+        <button class="optbtn" onclick="sortTable(2)">Sort by Gender</button>
+    </div>
+
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Class</th>
+                <th>Marks</th>
+                <th>Passing</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+           
+        </tbody>
+    </table>
+
+    <script>
+        // Add your JavaScript code here
+        // For simplicity, let's assume the array is hard-coded.
+        const dataArray = [            
+            {"id":1,"first_name":"Chadwick","last_name":"Ayre","email":"cayre0@cam.ac.uk","gender":"Male","img_src":"https://robohash.org/corporisquiaperiam.png?size=50x50&set=set1","class":11,"marks":18,"passing":false,"city":"Moorreesburg"},
+            {"id":2,"first_name":"Abrahan","last_name":"Seabrocke","email":"aseabrocke1@ocn.ne.jp","gender":"Male","img_src":"https://robohash.org/autiuredistinctio.png?size=50x50&set=set1","class":3,"marks":27,"passing":true,"city":"Kampong Thom"},
+            {"id":3,"first_name":"Nathanael","last_name":"Laye","email":"nlaye2@typepad.com","gender":"Male","img_src":"https://robohash.org/dolorumsedut.png?size=50x50&set=set1","class":10,"marks":89,"passing":false,"city":"Niquinohomo"},
+            {"id":4,"first_name":"Luigi","last_name":"Balcers","email":"lbalcers3@reverbnation.com","gender":"Agender","img_src":"https://robohash.org/eumaliquamest.png?size=50x50&set=set1","class":8,"marks":30,"passing":false,"city":"Nashtā Rūd"},
+            {"id":5,"first_name":"Adam","last_name":"Gurg","email":"agurg4@xrea.com","gender":"Male","img_src":"https://robohash.org/nemolaborumquis.png?size=50x50&set=set1","class":3,"marks":10,"passing":true,"city":"Sandviken"},
+            {"id":6,"first_name":"Kev","last_name":"Haitlie","email":"khaitlie5@booking.com","gender":"Male","img_src":"https://robohash.org/nonestnon.png?size=50x50&set=set1","class":1,"marks":59,"passing":true,"city":"Bridgewater"},
+            {"id":7,"first_name":"Reinhard","last_name":"Royl","email":"rroyl6@sun.com","gender":"Male","img_src":"https://robohash.org/nobisvelquasi.png?size=50x50&set=set1","class":4,"marks":60,"passing":true,"city":"Padangulaktanding"},
+            {"id":8,"first_name":"Nonah","last_name":"Kilmartin","email":"nkilmartin7@washington.edu","gender":"Female","img_src":"https://robohash.org/eosquodoloremque.png?size=50x50&set=set1","class":9,"marks":4,"passing":false,"city":"Petropavlovsk"},
+            {"id":9,"first_name":"Clo","last_name":"Falkinder","email":"cfalkinder8@mysql.com","gender":"Female","img_src":"https://robohash.org/velitinaccusantium.png?size=50x50&set=set1","class":6,"marks":9,"passing":false,"city":"Novyy Oskol"},
+            {"id":10,"first_name":"Clyve","last_name":"Dedney","email":"cdedney9@europa.eu","gender":"Male","img_src":"https://robohash.org/debitisevenietnon.png?size=50x50&set=set1","class":12,"marks":57,"passing":false,"city":"Jagna"},
+            {"id":11,"first_name":"Vincenz","last_name":"Surphliss","email":"vsurphlissa@soup.io","gender":"Male","img_src":"https://robohash.org/accusantiumnecessitatibusesse.png?size=50x50&set=set1","class":4,"marks":2,"passing":true,"city":"Jingmao"},
+            {"id":12,"first_name":"Helene","last_name":"Griffitts","email":"hgriffittsb@umn.edu","gender":"Female","img_src":"https://robohash.org/etcumquequi.png?size=50x50&set=set1","class":12,"marks":80,"passing":true,"city":"Fais"},
+            {"id":13,"first_name":"Lydia","last_name":"Pamphilon","email":"lpamphilonc@mit.edu","gender":"Female","img_src":"https://robohash.org/ametvoluptatemautem.png?size=50x50&set=set1","class":5,"marks":81,"passing":false,"city":"North York"},
+            {"id":14,"first_name":"Dov","last_name":"Cubbini","email":"dcubbinid@theguardian.com","gender":"Genderqueer","img_src":"https://robohash.org/quisteneturveritatis.png?size=50x50&set=set1","class":12,"marks":25,"passing":true,"city":"Keetmanshoop"},
+            {"id":15,"first_name":"Mimi","last_name":"Monksfield","email":"mmonksfielde@mapquest.com","gender":"Female","img_src":"https://robohash.org/voluptatibusexplicabout.png?size=50x50&set=set1","class":4,"marks":52,"passing":true,"city":"Placer"},
+            {"id":16,"first_name":"Marguerite","last_name":"Evanson","email":"mevansonf@huffingtonpost.com","gender":"Female","img_src":"https://robohash.org/voluptatesaliquamodit.png?size=50x50&set=set1","class":10,"marks":96,"passing":true,"city":"La Guacamaya"},
+            {"id":17,"first_name":"Michele","last_name":"Haresnaip","email":"mharesnaipg@networkadvertising.org","gender":"Male","img_src":"https://robohash.org/quisquamaperiamvel.png?size=50x50&set=set1","class":9,"marks":46,"passing":true,"city":"Tilamuta"},
+            {"id":18,"first_name":"Johnna","last_name":"Briars","email":"jbriarsh@behance.net","gender":"Agender","img_src":"https://robohash.org/maximecorruptiaspernatur.png?size=50x50&set=set1","class":9,"marks":77,"passing":false,"city":"Cocobeach"},
+            {"id":19,"first_name":"Debee","last_name":"Bonnier","email":"dbonnieri@opensource.org","gender":"Female","img_src":"https://robohash.org/errordoloreaut.png?size=50x50&set=set1","class":2,"marks":35,"passing":false,"city":"Carolina"},
+            {"id":20,"first_name":"Gunther","last_name":"Taveriner","email":"gtaverinerj@google.ca","gender":"Male","img_src":"https://robohash.org/mollitiautrerum.png?size=50x50&set=set1","class":1,"marks":72,"passing":true,"city":"Knoxville"},
+            {"id":21,"first_name":"Dominick","last_name":"Coppock.","email":"dcoppockk@mlb.com","gender":"Genderqueer","img_src":"https://robohash.org/ullaminciduntaut.png?size=50x50&set=set1","class":9,"marks":10,"passing":false,"city":"Magrath"},
+            {"id":22,"first_name":"Harp","last_name":"Colebrook","email":"hcolebrookl@gravatar.com","gender":"Male","img_src":"https://robohash.org/voluptatumlaboreiste.png?size=50x50&set=set1","class":4,"marks":83,"passing":false,"city":"Juuka"},
+            {"id":23,"first_name":"Carlen","last_name":"Bakeup","email":"cbakeupm@craigslist.org","gender":"Female","img_src":"https://robohash.org/quasblanditiispossimus.png?size=50x50&set=set1","class":2,"marks":28,"passing":false,"city":"Casal"},
+            {"id":24,"first_name":"Mario","last_name":"Crambie","email":"mcrambien@so-net.ne.jp","gender":"Male","img_src":"https://robohash.org/exercitationemquiaqui.png?size=50x50&set=set1","class":9,"marks":33,"passing":true,"city":"Linggou"},
+            {"id":25,"first_name":"Maribel","last_name":"Hindenburg","email":"mhindenburgo@squarespace.com","gender":"Female","img_src":"https://robohash.org/quiaetporro.png?size=50x50&set=set1","class":3,"marks":24,"passing":true,"city":"Zhangfang"}
+            ];
+
+        // Function to populate the table with data
+        function populateTable() {
+            const tableBody = document.getElementById('studentTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+            let student = [];
+            dataArray.forEach(strow => {    
+               
+                student.push(
+                    {ID:strow.id,
+                    Name: strow.first_name+ " " +strow.last_name,
+                    Gender:strow.gender,
+                    Class:strow.class,
+                    Marks:strow.marks,
+                    Passing:strow.passing,
+                    Email:strow.email}
+                    );
+            });
+            // console.log("student: ",student);
+            
+            
+            student.forEach(student => {
+                const row = tableBody.insertRow();               
+                Object.values(student).forEach(value => {
+                    const cell = row.insertCell();
+                    cell.textContent = value;
+                });
+            });
+        }
+
+        // Function to search the table
+        function searchTable() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const table = document.getElementById('studentTable');
+            console.log("Table",table);
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let found = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    const cellValue = cells[j].textContent.toLowerCase();
+                    if (cellValue.includes(input)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                rows[i].style.display = found ? '' : 'none';
+            }
+        }
+        function sortTable(column, reverse = false) {
+        const table = document.getElementById("studentTable");
+        const rows = Array.from(table.getElementsByTagName("tr")).slice(1);
+
+        rows.sort((a, b) => {
+            const aValue = a.children[column].textContent.trim();
+            const bValue = b.children[column].textContent.trim();
+
+            if (isNaN(aValue) || isNaN(bValue)) {
+                // If values are not numeric, do a simple string comparison
+                return aValue.localeCompare(bValue);
+            } else {
+                // If values are numeric, do a numeric comparison
+                return parseFloat(aValue) - parseFloat(bValue);
+            }
+        });
+
+        if (reverse) {
+            rows.reverse();
+        }
+
+        // Re-append sorted rows to the table
+        rows.forEach(row => table.tBodies[0].append(row));
+    }
+        populateTable();
+    </script>
+</body>
+</html>
